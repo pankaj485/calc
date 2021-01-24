@@ -33,24 +33,41 @@ document.querySelector('.themeImage').addEventListener('click', () => {
 ========= CALCULATOR FUNCTIONALITY =======
 ======================================== */
 
+// =============== button click function =============
 let screen = document.getElementById('resultScreen');
 let buttons = document.querySelectorAll('button');
-let outputValue = 0;
+let outputValue = '';
+
 for (item of buttons) {
 	item.addEventListener('click', (event) => {
-		let buttonValue = event.target.innerHTML;
-		// console.log(`button value : ${buttonValue}`);
-		screen.innerHTML += buttonValue;
+		let clickedButtonValue = event.target.innerHTML;
+		screen.innerHTML += clickedButtonValue;
 
-		if (buttonValue === 'AC') {
-			outputValue = 0;
+		if (clickedButtonValue === 'AC') {
+			outputValue = '';
 			screen.innerHTML = '&nbsp;';
-		} else if (buttonValue === '=') {
-			// prints output
+		} else if (clickedButtonValue === '=') {
 			screen.innerHTML = eval(outputValue);
 		} else {
-			// updating the to evaluate things
-			outputValue += buttonValue;
+			outputValue += clickedButtonValue;
 		}
 	});
 }
+
+// =============== keydown function =============
+document.addEventListener('keydown', (event) => {
+	let validKeys = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.', '/', '*', '-', '+', '=', 'Enter', 'Escape'];
+	if (validKeys.includes(event.key)) {
+		let typedButtonValue = event.key;
+		screen.innerHTML += typedButtonValue;
+
+		if (typedButtonValue === 'Escape') {
+			outputValue = '';
+			screen.innerHTML = '&nbsp;';
+		} else if (typedButtonValue === 'Enter') {
+			screen.innerHTML = eval(outputValue);
+		} else {
+			outputValue += typedButtonValue;
+		}
+	}
+});
